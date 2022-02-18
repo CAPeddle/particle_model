@@ -1,0 +1,32 @@
+@startuml
+
+title Classes - Class Diagram
+
+
+class Dwelling {
+  +Int Windows
+  +void Lock()
+}
+
+class Apartment
+class House
+class Commune
+
+Observable <|.. ConcreteObservable
+
+
+class //Observable//{
+ -observers: ObserverBase[0..*]
+
+ +Register(Observer o)
+ +Deregister(Observer o)
+ +Notify()
+}
+
+class ConcreteObservable
+
+
+class //ObserverBase//
+
+
+@enduml
