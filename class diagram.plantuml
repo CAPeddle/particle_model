@@ -2,20 +2,12 @@
 
 title Classes - Class Diagram
 
-
-class Dwelling {
-  +Int Windows
-  +void Lock()
-}
-
-class Apartment
-class House
-class Commune
+abstract class Observable
 
 Observable <|.. ConcreteObservable
 
 
-class //Observable//{
+abstract class Observable{
  -observers: ObserverBase[0..*]
 
  +Register(Observer o)
@@ -26,7 +18,7 @@ class //Observable//{
 class ConcreteObservable
 
 
-class //ObserverBase//
+interface ObserverBase
 
 
 @enduml
