@@ -1,0 +1,55 @@
+@startuml
+
+title Update Object \n
+
+start
+
+while (Simulation Running?) 
+
+split
+:Obj 1 Get Influencer States;
+
+note left
+  "Could be paralellised"
+  end note
+  
+split
+  :Request State 1;
+    note left
+      "The list of influencers"
+    end note
+ 
+split again
+  :Request State 2;
+split again
+  :Request State 3;
+end split
+
+split again
+   :Obj 2...;
+end split
+   
+
+:Process Combined Influencers State;
+
+if (State Changed?) then (yes)
+  : React to State Change;
+  if (Change Impacts Influence?) then (yes)
+   :Notify all objects influence input changed;
+   
+   note left
+     "eg position changed"
+     end note
+     
+  else (no)
+  endif
+else (no)
+  
+endif
+
+endwhile
+
+
+stop
+
+@enduml
