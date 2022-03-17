@@ -4,13 +4,15 @@ title Update Object \n
 
 start
 
+floating note left: Activities in <color:DeepSkyBlue>DeepSkyBlue \nare run by the system on the obj
+
 while (Simulation Running?) 
 
 split
-:Obj 1 Get Influencer States;
+#DeepSkyBlue:Obj 1 Get Influencer States;
 
 note left
-  "Could be paralellised"
+  "Could be parallelised"
   end note
   
 split
@@ -27,10 +29,11 @@ end split
 
 split again
    :Obj 2...;
+   :Request influencers;
 end split
    
 
-:Process Combined Influencers State;
+#DeepSkyBlue:Process Combined Influencers State;
 
 if (State Changed?) then (yes)
   : React to State Change;
