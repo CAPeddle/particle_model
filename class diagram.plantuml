@@ -1,34 +1,21 @@
 @startuml
-
 title Class Diagram
 
-
-abstract class Interface
+abstract class Influencer
 {
-    +Interface()
+    {abstract} +GetState()
     +virtual ~Interface()
     +virtual void method1()    
                                    
     +virtual void method2()
 }
 
-Interface <|.. Concrete
-
-class Concrete
-{
--myMember
-
-
-    +Concrete()
-    +~Concrete()
-    +void method1()
-    +void method2()
-}
-
+Influencer <|.. Object
 
 class Object {
 	- influencers: Influencer[0..*]
 
+  +GetState()
 	+ProcessInfluencers()
 	+ProcessCombinedState()
 	
