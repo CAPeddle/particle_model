@@ -1,24 +1,33 @@
 @startuml
 title Class Diagram
 
-abstract class Influencer
+interface Influencer
 {
     {abstract} +GetState()
-    +virtual ~Interface()
-    +virtual void method1()    
-                                   
-    +virtual void method2()
+}
+
+interface iObject
+{
+    {abstract} +InfluenceStateChanged(state)
 }
 
 Influencer <|.. Object
+iObject <|.. Object
 
 class Object {
 	- influencers: Influencer[0..*]
+	- objects: Object[0..*]
 
   +GetState()
 	+ProcessInfluencers()
 	+ProcessCombinedState()
+	+InfluenceStateChanged(state)
 	
+}
+
+
+
+class State {
 }
 
 
