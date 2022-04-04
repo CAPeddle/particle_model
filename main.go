@@ -2,11 +2,15 @@
 package main
 
 import (
-	"bytes"
 	"log"
 	"math/rand"
 
 	"github.com/hajimehoshi/ebiten/v2"
+)
+
+const (
+	screenWidth  = 320
+	screenHeight = 240
 )
 
 // Field represents a two-dimensional field of cells.
@@ -19,11 +23,6 @@ type Game struct {
 	world  *Life
 	pixels []byte
 }
-
-const (
-	screenWidth  = 320
-	screenHeight = 240
-)
 
 func (g *Game) Update() error {
 	// Write your game's logical update.
@@ -138,38 +137,13 @@ func (l *Life) Draw(pix []byte) {
 	}
 }
 
-// String returns the game board as a string.
-func (l *Life) String() string {
-	var buf bytes.Buffer
-	for y := 0; y < l.h; y++ {
-		for x := 0; x < l.w; x++ {
-			b := byte(' ')
-			if l.a.Alive(x, y) {
-				b = '*'
-			}
-			buf.WriteByte(b)
-		}
-		buf.WriteByte('\n')
-	}
-	return buf.String()
-}
-
 func main() {
-	// l := NewLife(40, 15)
-	// for i := 0; i < 300; i++ {
-	// 	l.Step()
-	// 	fmt.Print("\x0c", l) // Clear screen and print field.
-	// 	time.Sleep(time.Second / 30)
-	// }
-
-	/////////////////////////////////
-
 	g := &Game{
 		world: NewLife(screenWidth, screenHeight),
 	}
 
 	ebiten.SetWindowSize(screenWidth*2, screenHeight*2)
-	ebiten.SetWindowTitle("Game of Life (Ebiten Demo)")
+	ebiten.SetWindowTitle("Game of Life (Ebiten Enhanced)")
 	if err := ebiten.RunGame(g); err != nil {
 		log.Fatal(err)
 	}
