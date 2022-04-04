@@ -3,10 +3,8 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"log"
 	"math/rand"
-	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -23,13 +21,26 @@ type Game struct {
 }
 
 const (
-	screenWidth  = 40
-	screenHeight = 15
+	screenWidth  = 320
+	screenHeight = 240
 )
 
 func (g *Game) Update() error {
 	// Write your game's logical update.
+	g.world.Step()
 	return nil
+}
+
+func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
+	return screenWidth, screenHeight
+}
+
+func (g *Game) Draw(screen *ebiten.Image) {
+	if g.pixels == nil {
+		g.pixels = make([]byte, screenWidth*screenHeight*4)
+	}
+	g.world.Draw(g.pixels)
+	screen.ReplacePixels(g.pixels)
 }
 
 // NewField returns an empty field of the specified width and height.
@@ -105,6 +116,28 @@ func (l *Life) Step() {
 	l.a, l.b = l.b, l.a
 }
 
+// Draw paints current game state.
+func (l *Life) Draw(pix []byte) {
+
+	i := 0
+	for y := 0; y < l.h; y++ {
+		for _, v := range l.b.s[y] {
+			if v {
+				pix[4*i] = 0xff
+				pix[4*i+1] = 0xff
+				pix[4*i+2] = 0xff
+				pix[4*i+3] = 0xff
+			} else {
+				pix[4*i] = 0
+				pix[4*i+1] = 0
+				pix[4*i+2] = 0
+				pix[4*i+3] = 0
+			}
+			i++
+		}
+	}
+}
+
 // String returns the game board as a string.
 func (l *Life) String() string {
 	var buf bytes.Buffer
@@ -122,12 +155,12 @@ func (l *Life) String() string {
 }
 
 func main() {
-	l := NewLife(40, 15)
-	for i := 0; i < 300; i++ {
-		l.Step()
-		fmt.Print("\x0c", l) // Clear screen and print field.
-		time.Sleep(time.Second / 30)
-	}
+	// l := NewLife(40, 15)
+	// for i := 0; i < 300; i++ {
+	// 	l.Step()
+	// 	fmt.Print("\x0c", l) // Clear screen and print field.
+	// 	time.Sleep(time.Second / 30)
+	// }
 
 	/////////////////////////////////
 
