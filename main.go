@@ -4,14 +4,32 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"log"
 	"math/rand"
 	"time"
+
+	"github.com/hajimehoshi/ebiten/v2"
 )
 
 // Field represents a two-dimensional field of cells.
 type Field struct {
 	s    [][]bool
 	w, h int
+}
+
+type Game struct {
+	world  *Life
+	pixels []byte
+}
+
+const (
+	screenWidth  = 40
+	screenHeight = 15
+)
+
+func (g *Game) Update() error {
+	// Write your game's logical update.
+	return nil
 }
 
 // NewField returns an empty field of the specified width and height.
@@ -109,5 +127,17 @@ func main() {
 		l.Step()
 		fmt.Print("\x0c", l) // Clear screen and print field.
 		time.Sleep(time.Second / 30)
+	}
+
+	/////////////////////////////////
+
+	g := &Game{
+		world: NewLife(screenWidth, screenHeight),
+	}
+
+	ebiten.SetWindowSize(screenWidth*2, screenHeight*2)
+	ebiten.SetWindowTitle("Game of Life (Ebiten Demo)")
+	if err := ebiten.RunGame(g); err != nil {
+		log.Fatal(err)
 	}
 }
