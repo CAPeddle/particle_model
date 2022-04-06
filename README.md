@@ -5,3 +5,8 @@ https://go.dev/doc/play/life.go
 
 Should check out https://github.com/SimonWaldherr/cgolGo
 
+Create interface for 'objects' 
+
+https://qvault.io/golang/golang-interfaces/
+
+
