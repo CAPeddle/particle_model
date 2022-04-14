@@ -1,5 +1,3 @@
-// You can edit this code!
-// Click here and start typing.
 package main
 
 import (
@@ -11,6 +9,20 @@ type picture struct {
 	arrayName [5][5]color.RGBA
 }
 
+
+type drawable interface {
+    render() picture
+}
+
+
+type particle struct {
+	
+}
+
+func (r particle) render() picture {
+	rendering := 
+	return 
+}
 
 
 type person struct {
