@@ -6,9 +6,12 @@ import (
 )
 
 type picture struct {
-	arrayName [5][5]color.RGBA
+	imageOf [5][5]color.RGBA
 }
 
+func newPicture() *picture {
+
+}
 
 type drawable interface {
     render() picture
@@ -20,7 +23,7 @@ type particle struct {
 }
 
 func (r particle) render() picture {
-	rendering := 
+	rendering := new picture
 	return 
 }
 
@@ -46,3 +49,4 @@ func main() {
 	fmt.Println(newPerson("Jon"))
 
 }
+
