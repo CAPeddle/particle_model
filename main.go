@@ -6,6 +6,8 @@ import (
 	"math/rand"
 
 	"github.com/hajimehoshi/ebiten/v2"
+
+	"scratching"
 )
 
 const (
