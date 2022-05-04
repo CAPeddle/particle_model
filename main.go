@@ -7,7 +7,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 
-	"scratching"
+	"CAPeddle/particle_model/particle"
 )
 
 const (
@@ -140,6 +140,10 @@ func (l *Life) Draw(pix []byte) {
 }
 
 func main() {
+	testParticle := particle.Particle{}
+
+	print(testParticle.Render())
+
 	g := &Game{
 		world: NewLife(screenWidth, screenHeight),
 	}
