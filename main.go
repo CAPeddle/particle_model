@@ -142,7 +142,7 @@ func (l *Life) Draw(pix []byte) {
 func main() {
 	testParticle := particle.Particle{}
 
-	print(testParticle.Render())
+	print(testParticle.String())
 
 	g := &Game{
 		world: NewLife(screenWidth, screenHeight),

@@ -1,6 +1,7 @@
 package particle
 
 import (
+	"fmt"
 	"image/color"
 )
 
@@ -31,7 +32,12 @@ type drawable interface {
 	render() picture
 }
 
-func (r Particle) render() picture {
+func (a Particle) String() string {
+	return fmt.Sprintf("%d", a.Render().imageOf[1][1])
+
+}
+
+func (r Particle) Render() picture {
 	rendering := newPicture()
 	return *rendering
 }
