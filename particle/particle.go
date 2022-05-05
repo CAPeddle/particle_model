@@ -28,13 +28,12 @@ func newPicture() *picture {
 type Particle struct {
 }
 
-type drawable interface {
+type Drawable interface {
 	render() picture
 }
 
 func (a Particle) String() string {
 	return fmt.Sprintf("%d", a.Render().imageOf[1][1])
-
 }
 
 func (r Particle) Render() picture {
