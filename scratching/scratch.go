@@ -1,4 +1,4 @@
-package scratch
+package scratching
 
 import (
 	"image/color"
