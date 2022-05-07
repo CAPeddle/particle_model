@@ -40,3 +40,25 @@ func (r Particle) Render() picture {
 	rendering := newPicture()
 	return *rendering
 }
+
+// Draw paints current game state.
+func (l *Particle) Draw(pix []byte) {
+
+	i := 0
+	for y := 0; y < l.h; y++ {
+		for _, v := range l.b.s[y] {
+			if v {
+				pix[4*i] = 0xff
+				pix[4*i+1] = 0xff
+				pix[4*i+2] = 0xff
+				pix[4*i+3] = 0xff
+			} else {
+				pix[4*i] = 0
+				pix[4*i+1] = 0
+				pix[4*i+2] = 0
+				pix[4*i+3] = 0
+			}
+			i++
+		}
+	}
+}
