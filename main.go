@@ -6,7 +6,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 
-	"CAPeddle/particle_model/particle"
+	"CAPeddle/particle_model/environment"
 )
 
 const (
@@ -16,8 +16,8 @@ const (
 
 // Game implements ebiten.Game interface.
 type Game struct {
-	pixels    []byte
-	particles []particle.Drawable
+	pixels []byte
+	world  *environment.Environment
 }
 
 // Update proceeds the game state.
@@ -33,7 +33,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	if g.pixels == nil {
 		g.pixels = make([]byte, screenWidth*screenHeight*4)
 	}
-
+	g.world.Draw(g.pixels)
 	screen.ReplacePixels(g.pixels)
 }
 
@@ -44,11 +44,9 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 }
 
 func main() {
-	testParticle := particle.Particle{}
-
-	print(testParticle.String())
-
-	g := &Game{}
+	g := &Game{
+		world: environment.NewEnvironment(screenWidth, screenHeight),
+	}
 
 	ebiten.SetWindowSize(screenWidth*2, screenHeight*2)
 	ebiten.SetWindowTitle("Game of Life (Ebiten Enhanced)")
