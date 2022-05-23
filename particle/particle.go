@@ -9,6 +9,11 @@ type picture struct {
 	imageOf [5][5]color.RGBA
 }
 
+type Position struct {
+	X int
+	Y int
+}
+
 func newPicture() *picture {
 
 	p := picture{}
@@ -26,7 +31,8 @@ func newPicture() *picture {
 }
 
 type Particle struct {
-	Alive bool
+	Alive    bool
+	Location Position
 }
 
 // type Drawable interface {
