@@ -21,16 +21,16 @@ func NewEnvironment(w, h int) *Environment {
 	newParticles = append(newParticles, particle.Particle{
 		Alive: true,
 		Location: particle.Position{
-			X: 10,
-			Y: 10,
+			X: 0,
+			Y: 0,
 		},
 	})
 
 	newParticles = append(newParticles, particle.Particle{
-		Alive: false,
+		Alive: true,
 		Location: particle.Position{
 			X: 20,
-			Y: 20,
+			Y: 10,
 		},
 	})
 
@@ -38,7 +38,15 @@ func NewEnvironment(w, h int) *Environment {
 		Alive: true,
 		Location: particle.Position{
 			X: 30,
-			Y: 30,
+			Y: 10,
+		},
+	})
+
+	newParticles = append(newParticles, particle.Particle{
+		Alive: true,
+		Location: particle.Position{
+			X: w,
+			Y: h,
 		},
 	})
 
@@ -60,21 +68,18 @@ func NewEnvironment(w, h int) *Environment {
 // Draw paints current game state.
 func (environment *Environment) Draw(pix []byte) {
 
-	i := 0
-	for y := 0; y < environment.height; y++ {
-		for x, v := range environment.particles {
-			if v.Alive && x == v.Location.X {
-				pix[4*i] = 0xff
-				pix[4*i+1] = 0xff
-				pix[4*i+2] = 0xff
-				pix[4*i+3] = 0xff
-			} else {
-				pix[4*i] = 0
-				pix[4*i+1] = 0
-				pix[4*i+2] = 0
-				pix[4*i+3] = 0
-			}
-			i++
+	for _, v := range environment.particles {
+		pixelLocation := v.Location.Y*environment.width + v.Location.X
+		if v.Alive {
+			pix[4*pixelLocation] = 0xff
+			pix[4*pixelLocation+1] = 0xff
+			pix[4*pixelLocation+2] = 0xff
+			pix[4*pixelLocation+3] = 0xff
+		} else {
+			pix[4*pixelLocation] = 0
+			pix[4*pixelLocation+1] = 0
+			pix[4*pixelLocation+2] = 0
+			pix[4*pixelLocation+3] = 0
 		}
 	}
 }
