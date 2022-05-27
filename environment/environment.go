@@ -2,6 +2,7 @@ package environment
 
 import (
 	"CAPeddle/particle_model/particle"
+	"fmt"
 )
 
 //particles have a location
@@ -14,47 +15,29 @@ type Environment struct {
 func NewEnvironment(w, h int) *Environment {
 
 	testParticle := particle.Particle{}
-	print(testParticle.String())
+	fmt.Print("Width [", w, "] Height [", h, "] Test Particle", testParticle.String())
 
 	newParticles := []particle.Particle{}
 
-	newParticles = append(newParticles, particle.Particle{
-		Alive: true,
-		Location: particle.Position{
-			X: 0,
-			Y: 0,
-		},
-	})
+	// for i, j := 0, 0; i < 10; i, j = i+1, j+1 {
+	// 	fmt.Println("Hello, playground", i, " ", j)
+	// }
+
+	for x, y := 0, 0; x < w && y < h; x, y = x+1, y+1 {
+		newParticles = append(newParticles, particle.Particle{
+			Alive: true,
+			Location: particle.Position{
+				X: x,
+				Y: y,
+			},
+		})
+	}
 
 	newParticles = append(newParticles, particle.Particle{
 		Alive: true,
 		Location: particle.Position{
-			X: 20,
-			Y: 10,
-		},
-	})
-
-	newParticles = append(newParticles, particle.Particle{
-		Alive: true,
-		Location: particle.Position{
-			X: 30,
-			Y: 10,
-		},
-	})
-
-	newParticles = append(newParticles, particle.Particle{
-		Alive: true,
-		Location: particle.Position{
-			X: w,
-			Y: h,
-		},
-	})
-
-	newParticles = append(newParticles, particle.Particle{
-		Alive: false,
-		Location: particle.Position{
-			X: 40,
-			Y: 40,
+			X: w - 1,
+			Y: h - 1,
 		},
 	})
 
@@ -68,8 +51,20 @@ func NewEnvironment(w, h int) *Environment {
 // Draw paints current game state.
 func (environment *Environment) Draw(pix []byte) {
 
-	for _, v := range environment.particles {
+	for i, v := range environment.particles {
 		pixelLocation := v.Location.Y*environment.width + v.Location.X
+
+		// fmt.Println(i, ": Range [", len(pix),
+		// 	"] pixelLocation [", pixelLocation,
+		// 	"] maxColLocation [", 4*pixelLocation+3,
+		// 	"] LocY[", v.Location.Y*environment.width,
+		// 	"] LocX [", v.Location.X, "]")
+
+		if 4*pixelLocation > len(pix) {
+			fmt.Println(i, ": Exceeds range")
+			break
+		}
+
 		if v.Alive {
 			pix[4*pixelLocation] = 0xff
 			pix[4*pixelLocation+1] = 0xff
