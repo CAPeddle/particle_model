@@ -5,8 +5,8 @@ import (
 	"image/color"
 )
 
-type picture struct {
-	imageOf [5][5]color.RGBA
+type Picture struct {
+	ImageOf [5][5]color.RGBA
 }
 
 type Position struct {
@@ -14,16 +14,18 @@ type Position struct {
 	Y int
 }
 
-func newPicture() *picture {
+func newPicture() *Picture {
 
-	p := picture{}
+	p := Picture{
+		ImageOf: [5][5]color.RGBA{},
+	}
 
-	for i := range p.imageOf {
-		for t := range p.imageOf[i] {
-			p.imageOf[i][t].R = 0xff
-			p.imageOf[i][t].G = 0xff
-			p.imageOf[i][t].B = 0xff
-			p.imageOf[i][t].A = 0xff
+	for i := range p.ImageOf {
+		for t := range p.ImageOf[i] {
+			p.ImageOf[i][t].R = 0x0f
+			p.ImageOf[i][t].G = 0xff
+			p.ImageOf[i][t].B = 0xff
+			p.ImageOf[i][t].A = 0x0f
 		}
 	}
 
@@ -40,10 +42,10 @@ type Particle struct {
 // }
 
 func (a Particle) String() string {
-	return fmt.Sprintf("%d", a.Render().imageOf[1][1])
+	return fmt.Sprintf("%d", a.Render().ImageOf[1][1])
 }
 
-func (r Particle) Render() picture {
+func (r Particle) Render() Picture {
 	rendering := newPicture()
 	return *rendering
 }
