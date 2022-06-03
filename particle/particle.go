@@ -5,8 +5,13 @@ import (
 	"image/color"
 )
 
+const (
+	ParticleWidth  = 5
+	ParticleHeight = 5
+)
+
 type Picture struct {
-	ImageOf [5][5]color.RGBA
+	ImageOf [ParticleHeight][ParticleWidth]color.RGBA
 }
 
 type Position struct {
@@ -17,7 +22,8 @@ type Position struct {
 func newPicture() *Picture {
 
 	p := Picture{
-		ImageOf: [5][5]color.RGBA{},
+		//[row][column]
+		ImageOf: [ParticleHeight][ParticleWidth]color.RGBA{},
 	}
 
 	for i := range p.ImageOf {

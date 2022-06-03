@@ -24,15 +24,16 @@ type Game struct {
 // Update is called every tick (1/60 [s] by default).
 func (g *Game) Update() error {
 	// Write your game's logical update.
+	g.world.Update()
 	return nil
 }
 
 // Draw draws the game screen.
 // Draw is called every frame (typically 1/60[s] for 60Hz display).
 func (g *Game) Draw(screen *ebiten.Image) {
-	if g.pixels == nil {
-		g.pixels = make([]byte, screenWidth*screenHeight*4)
-	}
+
+	g.pixels = make([]byte, screenWidth*screenHeight*4)
+
 	g.world.Draw(g.pixels)
 	screen.ReplacePixels(g.pixels)
 }

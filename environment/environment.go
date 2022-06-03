@@ -16,7 +16,7 @@ func NewEnvironment(w, h int) *Environment {
 
 	newParticles := []particle.Particle{}
 
-	for x, y := 0, 0; x < w && y < h; x, y = x+1, y+1 {
+	for x, y := particle.ParticleWidth, particle.ParticleHeight; x < w-particle.ParticleWidth && y < h-particle.ParticleHeight; x, y = x+particle.ParticleWidth+1, y+particle.ParticleHeight+1 {
 		newParticles = append(newParticles, particle.Particle{
 			Alive: true,
 			Location: particle.Position{
@@ -36,22 +36,7 @@ func NewEnvironment(w, h int) *Environment {
 // Draw paints current game state.
 func (environment *Environment) Draw(pix []byte) {
 
-	for i, v := range environment.particles {
-		// fmt.Println(i, ": Range [", len(pix),
-		// 	"] pixelLocation [", pixelLocation,
-		// 	"] maxColLocation [", 4*pixelLocation+3,
-		// 	"] LocY[", v.Location.Y*environment.width,
-		// 	"] LocX [", v.Location.X, "]")
-
-		//object/particle should respond with a drawable impact on the pixel array
-		//should it be an addition on the array?
-		//so that this method is dumb?
-
-		fmt.Println("len Col ", len(v.Render().ImageOf),
-			"len Rows ", len(v.Render().ImageOf[0]),
-			" A ", v.Render().ImageOf[0][0].A,
-			" Modulos ImageOf", len(v.Render().ImageOf)%2,
-			" Modulos ImageOf[0]", len(v.Render().ImageOf[0])%2)
+	for _, v := range environment.particles {
 
 		if len(v.Render().ImageOf[0])%2 == 0 {
 			fmt.Println("Width not uneven")
@@ -63,23 +48,51 @@ func (environment *Environment) Draw(pix []byte) {
 			break
 		}
 
-		pixelLocation := v.Location.Y*environment.width + v.Location.X
+		noRows := len(v.Render().ImageOf)
+		noCols := len(v.Render().ImageOf[0])
 
-		if 4*pixelLocation > len(pix) {
-			fmt.Println(i, ": Exceeds range")
-			break
+		for rowIndex, row := range v.Render().ImageOf {
+			//TODO improve the implicit conversion
+			rowPixel := rowIndex - noRows/2
+
+			for colIndex, pixel := range row {
+				colPixel := colIndex - noCols/2
+
+				pixelLocation := (v.Location.Y-rowPixel)*environment.width + v.Location.X + colPixel
+
+				if 4*pixelLocation+3 > len(pix) || 4*pixelLocation < 0 {
+					fmt.Println("Pixel out of bounds")
+					break
+				}
+
+				if v.Alive {
+					pix[4*pixelLocation] = pixel.R
+					pix[4*pixelLocation+1] = pixel.G
+					pix[4*pixelLocation+2] = pixel.B
+					pix[4*pixelLocation+3] = pixel.A
+				} else {
+					pix[4*pixelLocation] = 0
+					pix[4*pixelLocation+1] = 0
+					pix[4*pixelLocation+2] = 0
+					pix[4*pixelLocation+3] = 0
+				}
+			}
+		}
+	}
+}
+
+func (environment *Environment) Update() {
+	for particleIndex := range environment.particles {
+		environment.particles[particleIndex].Location.X = environment.particles[particleIndex].Location.X + 1
+
+		if environment.particles[particleIndex].Location.X > environment.width-particle.ParticleWidth {
+			environment.particles[particleIndex].Location.X = particle.ParticleWidth
 		}
 
-		if v.Alive {
-			pix[4*pixelLocation] = v.Render().ImageOf[2][2].R
-			pix[4*pixelLocation+1] = v.Render().ImageOf[2][2].G
-			pix[4*pixelLocation+2] = v.Render().ImageOf[2][2].B
-			pix[4*pixelLocation+3] = v.Render().ImageOf[2][2].A
-		} else {
-			pix[4*pixelLocation] = 0
-			pix[4*pixelLocation+1] = 0
-			pix[4*pixelLocation+2] = 0
-			pix[4*pixelLocation+3] = 0
+		environment.particles[particleIndex].Location.Y = environment.particles[particleIndex].Location.Y + 1
+
+		if environment.particles[particleIndex].Location.Y > environment.height-particle.ParticleHeight {
+			environment.particles[particleIndex].Location.Y = particle.ParticleHeight
 		}
 	}
 }
