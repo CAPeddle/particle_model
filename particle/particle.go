@@ -22,10 +22,10 @@ func newPicture() *Picture {
 
 	for i := range p.ImageOf {
 		for t := range p.ImageOf[i] {
-			p.ImageOf[i][t].R = 0x0f
-			p.ImageOf[i][t].G = 0xff
-			p.ImageOf[i][t].B = 0xff
-			p.ImageOf[i][t].A = 0x0f
+			p.ImageOf[i][t].R = 245
+			p.ImageOf[i][t].G = 40
+			p.ImageOf[i][t].B = 145
+			p.ImageOf[i][t].A = 0
 		}
 	}
 

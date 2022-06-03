@@ -71,10 +71,10 @@ func (environment *Environment) Draw(pix []byte) {
 		}
 
 		if v.Alive {
-			pix[4*pixelLocation] = 0xff
-			pix[4*pixelLocation+1] = 0xff
-			pix[4*pixelLocation+2] = 0xff
-			pix[4*pixelLocation+3] = 0xff
+			pix[4*pixelLocation] = v.Render().ImageOf[2][2].R
+			pix[4*pixelLocation+1] = v.Render().ImageOf[2][2].G
+			pix[4*pixelLocation+2] = v.Render().ImageOf[2][2].B
+			pix[4*pixelLocation+3] = v.Render().ImageOf[2][2].A
 		} else {
 			pix[4*pixelLocation] = 0
 			pix[4*pixelLocation+1] = 0
