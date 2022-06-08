@@ -39,8 +39,9 @@ func newPicture() *Picture {
 }
 
 type Particle struct {
-	Alive    bool
-	Location Position
+	Alive             bool
+	LocationRender    Position
+	LocationInfluence Position
 }
 
 // type Drawable interface {

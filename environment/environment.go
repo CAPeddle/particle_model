@@ -3,6 +3,8 @@ package environment
 import (
 	"CAPeddle/particle_model/particle"
 	"fmt"
+	"math/rand"
+	"time"
 )
 
 //particles have a location
@@ -16,14 +18,30 @@ func NewEnvironment(w, h int) *Environment {
 
 	newParticles := []particle.Particle{}
 
-	for x, y := particle.ParticleWidth, particle.ParticleHeight; x < w-particle.ParticleWidth && y < h-particle.ParticleHeight; x, y = x+particle.ParticleWidth+1, y+particle.ParticleHeight+1 {
-		newParticles = append(newParticles, particle.Particle{
-			Alive: true,
-			Location: particle.Position{
-				X: x,
-				Y: y,
-			},
-		})
+	src := rand.NewSource(time.Now().UnixNano())
+
+	remaining := 0
+	cache := int64(0)
+
+	for x := 0; x < w-particle.ParticleWidth; x = x + particle.ParticleWidth {
+		for y := 0; y < h-particle.ParticleHeight; y = y + particle.ParticleHeight {
+
+			if remaining == 0 {
+				cache, remaining = src.Int63(), 63
+			}
+
+			result := cache&0x01 == 1
+			cache >>= 1
+			remaining--
+
+			newParticles = append(newParticles, particle.Particle{
+				Alive: result,
+				LocationRender: particle.Position{
+					X: x,
+					Y: y,
+				},
+			})
+		}
 	}
 
 	return &Environment{
@@ -58,7 +76,7 @@ func (environment *Environment) Draw(pix []byte) {
 			for colIndex, pixel := range row {
 				colPixel := colIndex - noCols/2
 
-				pixelLocation := (v.Location.Y-rowPixel)*environment.width + v.Location.X + colPixel
+				pixelLocation := (v.LocationRender.Y-rowPixel)*environment.width + v.LocationRender.X + colPixel
 
 				if 4*pixelLocation+3 > len(pix) || 4*pixelLocation < 0 {
 					fmt.Println("Pixel out of bounds")
@@ -83,16 +101,16 @@ func (environment *Environment) Draw(pix []byte) {
 
 func (environment *Environment) Update() {
 	for particleIndex := range environment.particles {
-		environment.particles[particleIndex].Location.X = environment.particles[particleIndex].Location.X + 1
+		environment.particles[particleIndex].LocationRender.X = environment.particles[particleIndex].LocationRender.X + 1
 
-		if environment.particles[particleIndex].Location.X > environment.width-particle.ParticleWidth {
-			environment.particles[particleIndex].Location.X = particle.ParticleWidth
+		if environment.particles[particleIndex].LocationRender.X > environment.width-particle.ParticleWidth {
+			environment.particles[particleIndex].LocationRender.X = particle.ParticleWidth
 		}
 
-		environment.particles[particleIndex].Location.Y = environment.particles[particleIndex].Location.Y + 1
+		environment.particles[particleIndex].LocationRender.Y = environment.particles[particleIndex].LocationRender.Y + 1
 
-		if environment.particles[particleIndex].Location.Y > environment.height-particle.ParticleHeight {
-			environment.particles[particleIndex].Location.Y = particle.ParticleHeight
+		if environment.particles[particleIndex].LocationRender.Y > environment.height-particle.ParticleHeight {
+			environment.particles[particleIndex].LocationRender.Y = particle.ParticleHeight
 		}
 	}
 }
