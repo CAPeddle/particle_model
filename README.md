@@ -16,3 +16,6 @@ Render returns a 2D array, this must have a centre. the pixel sequence needs to 
 a particle has a centre so then if draw returns an array of size then the image has to be centred around that right?
 
 
+# Gun
+https://en.wikipedia.org/wiki/Gun_(cellular_automaton)
+https://en.wikipedia.org/wiki/Gun_(cellular_automaton)#/media/File:Game_of_life_glider_gun.svg
