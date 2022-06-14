@@ -19,3 +19,8 @@ a particle has a centre so then if draw returns an array of size then the image 
 # Gun
 https://en.wikipedia.org/wiki/Gun_(cellular_automaton)
 https://en.wikipedia.org/wiki/Gun_(cellular_automaton)#/media/File:Game_of_life_glider_gun.svg
+
+
+
+# Future
+https://www.youtube.com/watch?v=5CH-v79IdfQ
