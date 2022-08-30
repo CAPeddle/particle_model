@@ -24,3 +24,4 @@ https://en.wikipedia.org/wiki/Gun_(cellular_automaton)#/media/File:Game_of_life_
 
 # Future
 https://www.youtube.com/watch?v=5CH-v79IdfQ
+https://www.youtube.com/watch?v=qwrp3lB-jkQ
